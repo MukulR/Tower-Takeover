@@ -51,7 +51,7 @@ void waitForCompletion(MotorDefs *mtrDefs){
       {15, 13}, // Left motors
       {-16, -20},   // Right motors
       AbstractMotor::gearset::red, // Torque gearset
-      {3.25_in, 13.5_in} // 4 inch wheels, 12.5 inch wheelbase width
+      {3.25_in, 13.5_in} // 4 inch wheels, 13.5 inch wheelbase width
   );
 
   auto profileController = AsyncControllerFactory::motionProfile(

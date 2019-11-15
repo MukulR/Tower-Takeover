@@ -7,7 +7,7 @@ MotorDefs::MotorDefs() {
     right_mtr_b = new pros::Motor(20, pros::E_MOTOR_GEARSET_18, true);
     tilt_mtr = new pros::Motor(4, pros::E_MOTOR_GEARSET_36, true);
     intake_mtr_l = new pros::Motor(2, pros::E_MOTOR_GEARSET_18, true);
-    intake_mtr_r = new pros::Motor(7, pros::E_MOTOR_GEARSET_18, false);
+    intake_mtr_r = new pros::Motor(6, pros::E_MOTOR_GEARSET_18, false);
     lift_mtr = new pros::Motor(8, pros::E_MOTOR_GEARSET_36, true);
 }
 
