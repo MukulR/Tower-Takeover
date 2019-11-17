@@ -47,20 +47,6 @@ void waitForCompletion(MotorDefs *mtrDefs){
 	}
 }
 
-  auto myChassis = ChassisControllerFactory::create(
-      {15, 13}, // Left motors
-      {-16, -20},   // Right motors
-      AbstractMotor::gearset::red, // Torque gearset
-      {3.25_in, 13.5_in} // 4 inch wheels, 13.5 inch wheelbase width
-  );
-
-  auto profileController = AsyncControllerFactory::motionProfile(
-      1.0,  // Maximum linear velocity of the Chassis in m/s
-      2.0,  // Maximum linear acceleration of the Chassis in m/s/s
-      10.0, // Maximum linear jerk of the Chassis in m/s/s/s
-      myChassis // Chassis Controller
-  );
-
 void SGZ::runAuton(){
     lift(127, 900, 1, mtrDefs);
     pros::Task::delay(200);
