@@ -1,6 +1,7 @@
 #ifndef _DGZ_HPP_
 #define _DGZ_HPP_
 
+class AutonCommons;
 class RobotDriver;
 class MotorDefs;
 
@@ -11,6 +12,7 @@ class DGZ {
     private:
         MotorDefs *mtrDefs;
         bool redAlliance;
+        AutonCommons *ac;
     public:
         DGZ(MotorDefs *mtrDefs, bool ra);
         ~DGZ();
