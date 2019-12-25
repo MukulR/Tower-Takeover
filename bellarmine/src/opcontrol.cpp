@@ -74,7 +74,7 @@ void tilt(void *param){
 		}
         //depositing
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			mtrDefs.tilt_mtr->move_velocity(-50);
+			mtrDefs.tilt_mtr->move_velocity(-35);
 			while(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 				pros::Task::delay(10);
 			}
