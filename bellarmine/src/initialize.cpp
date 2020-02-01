@@ -2,6 +2,8 @@
 #include "motordefs.hpp"
 #include "autonselection.hpp"
 
+
+
 /**
  * Autonomous name documentation:
  * P-O-M: Pickup ball from platform, shoot our flags, 
@@ -78,6 +80,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
+   //gyro.reset();
 	lv_theme_alien_init(0, NULL);
 	lv_obj_t *title = lv_label_create(lv_scr_act(), NULL);
 	lv_label_set_text(title, "Auton Selection");

@@ -3,6 +3,8 @@
 #ifndef _MOTORDEFS_H_
 #define _MOTORDEFS_H_
 
+//pros::Imu gyro('D');
+
 class Ports {
     public:
         static int LEFT_MTR_F_PORT;
