@@ -8,6 +8,7 @@ pros::ADIDigitalIn limitswitch ('H');
 pros::ADIAnalogIn pot ('A');
 pros::ADILineSensor lineleft ('F');
 pros::ADILineSensor lineright ('C');
+pros::Imu aa ('D');
 
 bool suspended = false;
 bool hold = false;
@@ -144,11 +145,11 @@ void depositStack(){
 	mtrDefs.tilt_mtr->move(90);
 	mtrDefs.intake_mtr_l->move(-30);
 	mtrDefs.intake_mtr_r->move(-30);
-	while(pot.get_value() < 3090){
+	while(pot.get_value() < 1610){
 		pros::Task::delay(10);
 	}
-	mtrDefs.tilt_mtr->move(33);
-	while(pot.get_value() < 3900){
+	mtrDefs.tilt_mtr->move(30);
+	while(pot.get_value() < 980){
 		pros::Task::delay(10);
 	}
 	mtrDefs.tilt_mtr->move(-10);
@@ -212,6 +213,7 @@ void lift(void *param){
 			}
 		}
 		//going up
+		 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			mtrDefs.lift_mtr->move(-127);
 			while(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
