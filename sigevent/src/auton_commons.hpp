@@ -17,10 +17,14 @@ class AutonCommons {
         void driveWithCoast(int time, int power);
         void turnRobotRight(double degrees);
         void turnRobotLeft(double degrees);
+        void turnRobotLeftSlowly(double degrees);
+        void turnRobotRightSlowly(double degrees);
         void turnRightToZeroHeading();
+        void turnLeftToZeroHeading();
         void deposit();
         void flipoutAndStartIntake();
         void backup();
+        static void tilt(void *param);
         void alignCubeToIntake();
         void depositStack();
     private:

@@ -111,6 +111,44 @@ void AutonCommons::turnRobotRight(double degrees){
 	mtrDefs->right_mtr_b->move(0);
 }
 
+void AutonCommons::turnRobotRightSlowly(double degrees){
+	degrees = degrees - 6; // Correction for Inertial sensor's constant overshoot of 6 degs
+	mtrDefs->left_mtr_f->move(40); 
+	mtrDefs->left_mtr_b->move(40);
+	mtrDefs->right_mtr_f->move(-40);
+	mtrDefs->right_mtr_b->move(-40);
+	while (degrees - imu->get_heading() < 0); // bring the robot to 0 heading
+	while (imu->get_heading() < degrees); // turn the robot the accurate amount of degs
+	mtrDefs->left_mtr_f->move(-40);
+	mtrDefs->left_mtr_b->move(-40);
+	mtrDefs->right_mtr_f->move(40);
+	mtrDefs->right_mtr_b->move(40);
+	pros::Task::delay(TURN_BRAKE_DELAY_MS);
+	mtrDefs->left_mtr_f->move(0);
+	mtrDefs->left_mtr_b->move(0);
+	mtrDefs->right_mtr_f->move(0);
+	mtrDefs->right_mtr_b->move(0);
+}
+
+void AutonCommons::turnRobotLeftSlowly(double degrees){
+	degrees = degrees - 6; // Correction for Inertial sensor's constant overshoot of 5 degs
+	mtrDefs->left_mtr_f->move(-40); 
+	mtrDefs->left_mtr_b->move(-40);
+	mtrDefs->right_mtr_f->move(40);
+	mtrDefs->right_mtr_b->move(40);
+	while (imu->get_heading() - degrees < 0); // correction loop
+	while (imu->get_heading() > 360 - degrees); // turn the robot the accurate amount of degs
+	mtrDefs->left_mtr_f->move(40);
+	mtrDefs->left_mtr_b->move(40);
+	mtrDefs->right_mtr_f->move(-40);
+	mtrDefs->right_mtr_b->move(-40);
+	pros::Task::delay(TURN_BRAKE_DELAY_MS);
+	mtrDefs->left_mtr_f->move(0);
+	mtrDefs->left_mtr_b->move(0);
+	mtrDefs->right_mtr_f->move(0);
+	mtrDefs->right_mtr_b->move(0);
+}
+
 void AutonCommons::turnRobotLeft(double degrees){
 	degrees = degrees - 6; // Correction for Inertial sensor's constant overshoot of 5 degs
 	mtrDefs->left_mtr_f->move(-TURN_SPEED); 
@@ -149,8 +187,30 @@ void AutonCommons::turnRightToZeroHeading() {
 			break;
 		}
 	}
-	
 }
+
+void AutonCommons::turnLeftToZeroHeading() {
+	mtrDefs->left_mtr_f->move(-TURN_SPEED); 
+	mtrDefs->left_mtr_b->move(-TURN_SPEED);
+	mtrDefs->right_mtr_f->move(TURN_SPEED);
+	mtrDefs->right_mtr_b->move(TURN_SPEED);
+	while (true){
+		if (imu->get_heading() <= 360 && imu->get_heading() > 180){ // brake the robot when heading reaches the right hemisphere
+			mtrDefs->left_mtr_f->move(TURN_SPEED);
+			mtrDefs->left_mtr_b->move(TURN_SPEED);
+			mtrDefs->right_mtr_f->move(-TURN_SPEED);
+			mtrDefs->right_mtr_b->move(-TURN_SPEED);
+			pros::Task::delay(TURN_BRAKE_DELAY_MS);
+			mtrDefs->left_mtr_f->move(0);
+			mtrDefs->left_mtr_b->move(0);
+			mtrDefs->right_mtr_f->move(0);
+			mtrDefs->right_mtr_b->move(0);
+			break;
+		}
+	}
+}
+
+
 
 void AutonCommons::driveWithCoast(int time, int power){
 	mtrDefs->left_mtr_f->move(power);
@@ -164,37 +224,36 @@ void AutonCommons::driveWithCoast(int time, int power){
 	mtrDefs->right_mtr_b->move(0);
 }
 
+void AutonCommons::tilt(void *param){
+	MotorDefs *mtrDefs = (MotorDefs*)param;
+	mtrDefs->tilt_mtr->move(-60);
+}
 
 void AutonCommons::deposit() {
     alignCubeToIntake();
-    pros::Task::delay(50);
     depositStack();
-    pros::Task::delay(200);
-    mtrDefs->tilt_mtr->move(-60);
-    pros::Task::delay(600);
-    mtrDefs->tilt_mtr->move(0);
+    pros::Task tiltTask(AutonCommons::tilt, mtrDefs);
     backup();
 }
 void AutonCommons::flipoutAndStartIntake() {
     // Outake hard a little to release tray. Also applies downward hold-power on lift to
     // prevent bouncing up.
-
     mtrDefs->lift_mtr->move(20);
-    //mtrDefs->intake_mtr_l->move(127);
-    //mtrDefs->intake_mtr_r->move(127);
-    pros::Task::delay(150);
+    mtrDefs->intake_mtr_l->move(127);
+    mtrDefs->intake_mtr_r->move(127);
+    pros::Task::delay(400);
     mtrDefs->intake_mtr_l->move(-127);
     mtrDefs->intake_mtr_r->move(-127);
 }
 
 void AutonCommons::backup(){
-	mtrDefs->intake_mtr_l->move(60);
-	mtrDefs->intake_mtr_r->move(60);
+	mtrDefs->intake_mtr_l->move(90);
+	mtrDefs->intake_mtr_r->move(90);
 
-	mtrDefs->left_mtr_f->move(-30);
-	mtrDefs->left_mtr_b->move(-30);
-	mtrDefs->right_mtr_f->move(-30);
-	mtrDefs->right_mtr_b->move(-30);
+	mtrDefs->left_mtr_f->move(-60);
+	mtrDefs->left_mtr_b->move(-60);
+	mtrDefs->right_mtr_f->move(-60);
+	mtrDefs->right_mtr_b->move(-60);
 	pros::Task::delay(1000);
 	mtrDefs->intake_mtr_l->move(0);
 	mtrDefs->intake_mtr_r->move(0);
@@ -211,7 +270,7 @@ void AutonCommons::alignCubeToIntake(){
 	while ((line_l.get_value() + line_r.get_value())/2 > 1110){
 		pros::Task::delay(10);
 	}
-	pros::Task::delay(30);
+	pros::Task::delay(140);
 	mtrDefs->intake_mtr_l->move(-10);
 	mtrDefs->intake_mtr_r->move(-10);
 	pros::Task::delay(30);
@@ -224,11 +283,11 @@ void AutonCommons::depositStack(){
 	mtrDefs->tilt_mtr->move(127);
 	mtrDefs->intake_mtr_l->move(-30);
 	mtrDefs->intake_mtr_r->move(-30);
-	while(poten.get_value() > 1634){
+	while(poten.get_value() > 1790){
 		pros::Task::delay(10);
 	}
-	mtrDefs->tilt_mtr->move(30);
-	while(poten.get_value() > 880){
+	mtrDefs->tilt_mtr->move(45);
+	while(poten.get_value() > 1040){
 		pros::Task::delay(10);
 	}
 	mtrDefs->tilt_mtr->move(-10);

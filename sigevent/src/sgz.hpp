@@ -18,8 +18,11 @@ class SGZ {
         void flipoutAndStartIntake();
         void turn(double degrees);
         void driveBack(int degrees); //MEU
+        void driveBackFast(int degrees);
         void turnToFaceCubes(double degrees);
-        void pickupCubes(int degrees);
+        void pickupFirstCubes(int degrees);
+        void driveForwardFast(int degrees);
+        void pickupSecondCubes(int degrees);
         void driveToGoal(int degrees);
         void deposit();
     public:

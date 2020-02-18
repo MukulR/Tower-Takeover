@@ -82,7 +82,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-   imu = new pros::Imu(20);
+   imu = new pros::Imu(10);
    imu->reset();
    
 	lv_theme_alien_init(0, NULL);

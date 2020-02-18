@@ -3,6 +3,7 @@
 #include "autonselection.hpp"
 #include "motordefs.hpp"
 #include "sgz.hpp"
+#include "dgz.hpp"
 
 
 const double TURN_SCALE_FACTOR = 4.44444;
@@ -33,8 +34,8 @@ void autonomous() {
 		case 1:
 			{
 				// dgzAuton(&mtrDefs, redAlliance);
-				//DGZ dgz(&mtrDefs, redAlliance);
-				//dgz.runAuton();
+				DGZ dgz(&mtrDefs, redAlliance, imu);
+				dgz.runAuton();
 			}
 			break;
 		default:

@@ -146,11 +146,11 @@ void depositStack(){
 	mtrDefs.tilt_mtr->move(127);
 	mtrDefs.intake_mtr_l->move(-30);
 	mtrDefs.intake_mtr_r->move(-30);
-	while(pot.get_value() > 1634){
+	while(pot.get_value() > 1790){
 		pros::Task::delay(10);
 	}
-	mtrDefs.tilt_mtr->move(30);
-	while(pot.get_value() > 880){
+	mtrDefs.tilt_mtr->move(45);
+	while(pot.get_value() > 950){
 		pros::Task::delay(10);
 	}
 	mtrDefs.tilt_mtr->move(-10);
